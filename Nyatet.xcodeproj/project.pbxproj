@@ -20,6 +20,7 @@
 		3B5F412C1E4AD7790053FD1B /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B5F41271E4AD7790053FD1B /* FMResultSet.m */; };
 		3B5F412F1E4AECAD0053FD1B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5F412E1E4AECAD0053FD1B /* libsqlite3.tbd */; };
 		3B5F41331E4AED580053FD1B /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5F41321E4AED580053FD1B /* DBManager.swift */; };
+		3BFE4CAA1E4C725C00744903 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFE4CA91E4C725C00744903 /* CustomCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		3B5F41271E4AD7790053FD1B /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		3B5F412E1E4AECAD0053FD1B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		3B5F41321E4AED580053FD1B /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
+		3BFE4CA91E4C725C00744903 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 			children = (
 				3B5F411B1E4AD6E20053FD1B /* fmdb */,
 				3B2E3F7A1E49E25700CE4C24 /* NotesListViewController.swift */,
+				3BFE4CA91E4C725C00744903 /* CustomCell.swift */,
 				3B5F41171E4AD4B60053FD1B /* NoteDetailViewController.swift */,
 				3B4AB9541E4864C700F418B0 /* AppDelegate.swift */,
 				3B5F41321E4AED580053FD1B /* DBManager.swift */,
@@ -195,6 +198,7 @@
 			files = (
 				3B4AB9551E4864C700F418B0 /* AppDelegate.swift in Sources */,
 				3B5F41181E4AD4B60053FD1B /* NoteDetailViewController.swift in Sources */,
+				3BFE4CAA1E4C725C00744903 /* CustomCell.swift in Sources */,
 				3B5F41281E4AD7790053FD1B /* FMDatabase.m in Sources */,
 				3B5F412C1E4AD7790053FD1B /* FMResultSet.m in Sources */,
 				3B5F412A1E4AD7790053FD1B /* FMDatabasePool.m in Sources */,

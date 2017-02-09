@@ -13,6 +13,7 @@ class DBManager: NSObject {
     let field_NoteID = "noteID"
     let field_NoteTitle = "title"
     let field_NoteContent = "content"
+    let field_NoteImagePath = "imagePath"
     let table_name = "notes"
 
     let databaseFileName = "database.sqlite"
@@ -39,7 +40,7 @@ class DBManager: NSObject {
             if database != nil {
                 // Open the database.
                 if database.open() {
-                    let createMoviesTableQuery = "create table notes (\(field_NoteID) integer primary key autoincrement not null, \(field_NoteTitle) text not null, \(field_NoteContent) text not null)"
+                    let createMoviesTableQuery = "create table notes (\(field_NoteID) integer primary key autoincrement not null, \(field_NoteTitle) text not null, \(field_NoteContent) text not null, \(field_NoteImagePath) text)"
                     
                     print(createMoviesTableQuery)
                     
@@ -77,7 +78,8 @@ class DBManager: NSObject {
                 while results.next() {
                     let movie = NoteInfo(noteID: Int(results.int(forColumn: field_NoteID)),
                                          title: results.string(forColumn: field_NoteTitle),
-                                         content: results.string(forColumn: field_NoteContent)
+                                         content: results.string(forColumn: field_NoteContent),
+                                         imagePath: results.string(forColumn: field_NoteImagePath)
                     )
                     
                     if notes == nil {
@@ -107,9 +109,12 @@ class DBManager: NSObject {
                 let results = try database.executeQuery(query, values: [id])
                 
                 if results.next() {
+                    print("Load notes with id " + results.string(forColumn: field_NoteImagePath))
+                    
                     noteInfo = NoteInfo(noteID: Int(results.int(forColumn: field_NoteID)),
                                           title: results.string(forColumn: field_NoteTitle),
-                                          content: results.string(forColumn: field_NoteContent)
+                                          content: results.string(forColumn: field_NoteContent),
+                                          imagePath: results.string(forColumn: field_NoteImagePath)
                     )
                     
                 }
@@ -143,9 +148,9 @@ class DBManager: NSObject {
         return false
     }
     
-    func insertNewNote(title: String, content: String) {
+    func insertNewNote(title: String, content: String, imagePath: String?) {
         if openDatabase() {
-            let query = "insert into notes (\(field_NoteID), \(field_NoteTitle), \(field_NoteContent)) values (null, '\(title)', '\(content)');"
+            let query = "insert into notes (\(field_NoteID), \(field_NoteTitle), \(field_NoteContent), \(field_NoteImagePath)) values (null, '\(title)', '\(content)', '\(imagePath!)');"
             print(query)
             
             if !database.executeStatements(query) {
@@ -155,14 +160,30 @@ class DBManager: NSObject {
         }
     }
     
-    func updateNote(id: Int, title: String, content: String) {
+    func updateNote(id: Int, title: String, content: String, imagePath: String?) {
         if openDatabase() {
-            let query = "update notes set \(field_NoteTitle) = '\(title)', \(field_NoteContent) = '\(content)' where \(field_NoteID) = \(id)"
+            let query = "update notes set \(field_NoteTitle) = '\(title)', \(field_NoteContent) = '\(content)', \(field_NoteImagePath) = '\(imagePath!)' where \(field_NoteID) = \(id)"
             
             if !database.executeStatements(query) {
                 print("Failed to update data into the database.")
                 print(database.lastError(), database.lastErrorMessage())
             }
+        }
+    }
+    
+    func deleteNote(id: Int) -> Bool {
+        if openDatabase() {
+            let query = "delete from notes where \(field_NoteID) = \(id)"
+            print(query)
+            
+            if !database.executeStatements(query) {
+                print("Failed to update data into the database.")
+                print(database.lastError(), database.lastErrorMessage())
+                return false
+            }
+            return true
+        } else {
+            return false
         }
     }
 }

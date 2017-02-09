@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import Photos
 
 struct NoteInfo {
     var noteID: Int!
     var title: String!
     var content: String!
+    var imagePath: String?
 }
 
 class NotesListTableViewController: UITableViewController {
@@ -40,17 +42,37 @@ class NotesListTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let selectedItemId = notes?[indexPath.row].noteID
+        
         if editingStyle == UITableViewCellEditingStyle.delete {
-            notes?.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+            if DBManager.shared.deleteNote(id: selectedItemId!) {
+                notes?.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+            }
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NotesCell", for: indexPath)
-
-        cell.textLabel!.text = notes?[indexPath.row].title
-
+        let cell: CustomCell = tableView.dequeueReusableCell(withIdentifier: "NotesCell", for: indexPath) as! CustomCell
+        
+        let note: NoteInfo = (notes?[indexPath.row])!
+        
+        cell.noteLabel.text = note.title
+        
+        if let localPath = note.imagePath {
+            
+            if let nsUrl = URL(string: localPath),
+                let result = PHAsset.fetchAssets(withALAssetURLs: [nsUrl], options: nil).firstObject {
+                
+                let manager = PHImageManager.default()
+                let option = PHImageRequestOptions()
+                
+                option.isSynchronous = true
+                manager.requestImage(for: result, targetSize: CGSize(width: 240, height: 240), contentMode: .aspectFit, options: option, resultHandler: {(result, info)->Void in
+                    cell.noteImage.image = result!
+                })
+            }
+        }
         return cell
     }
     
